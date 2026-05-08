@@ -19,6 +19,7 @@ A simplified note-taking app with AI chat, calendar, and authentication.
 2. Configure the backend environment:
    - Copy `backend/.env.example` to `backend/.env`
    - Set `MONGO_URI` and `JWT_SECRET`
+   - If your provider created `MONGODB_URI` instead, the backend now accepts that too
    - Set `OPENAI_API_KEY`
    - Optionally change `OPENAI_MODEL` if you want another OpenAI text model
 
@@ -33,7 +34,7 @@ A simplified note-taking app with AI chat, calendar, and authentication.
 - Keep frontend and backend in the same repository. A second backend-only repo is not necessary for this setup.
 - The frontend uses `VITE_API_URL` when provided. In production it falls back to `/api`, which lets Vercel serve the Express backend from the same project.
 - Add these environment variables in Vercel:
-  - `MONGO_URI`
+  - `MONGO_URI` or `MONGODB_URI`
   - `JWT_SECRET`
   - `OPENAI_API_KEY`
   - `OPENAI_MODEL` (optional)

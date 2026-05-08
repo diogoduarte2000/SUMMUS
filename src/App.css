@@ -3720,6 +3720,54 @@ body::after,
   color: #f5f3ee !important;
 }
 
+.day-modal .section-title,
+.day-modal .settings-field span,
+.day-modal .checkbox-field,
+.day-modal .checkbox-field span,
+.day-modal .muted,
+.theme-dark .day-modal .section-title,
+.theme-dark .day-modal .settings-field span,
+.theme-dark .day-modal .checkbox-field,
+.theme-dark .day-modal .checkbox-field span,
+.theme-dark .day-modal .muted {
+  color: #111111 !important;
+}
+
+.day-modal .settings-field input,
+.day-modal .settings-field select,
+.day-modal .composer-textarea,
+.theme-dark .day-modal .settings-field input,
+.theme-dark .day-modal .settings-field select,
+.theme-dark .day-modal .composer-textarea {
+  background: #1a1a1a !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: #f5f3ee !important;
+  caret-color: #f5f3ee;
+}
+
+.day-modal .settings-field input::placeholder,
+.day-modal .composer-textarea::placeholder,
+.theme-dark .day-modal .settings-field input::placeholder,
+.theme-dark .day-modal .composer-textarea::placeholder {
+  color: rgba(245, 243, 238, 0.42) !important;
+}
+
+.day-modal input[type='time'],
+.theme-dark .day-modal input[type='time'] {
+  color-scheme: dark;
+}
+
+.day-modal input[type='time']::-webkit-calendar-picker-indicator,
+.theme-dark .day-modal input[type='time']::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  opacity: 0.85;
+}
+
+.day-modal input[type='checkbox'],
+.theme-dark .day-modal input[type='checkbox'] {
+  accent-color: #111111;
+}
+
 .sidebar,
 .card,
 .composer,
