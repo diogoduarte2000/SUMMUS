@@ -13,7 +13,7 @@ const UI_TEXT = {
     heroWelcome: 'bem-vindo',
     heroBack: 'de volta',
     homeIntro:
-      'Summus agora segue uma direção visual industrial e limpa. Entra em Workflow para abrir notas, usar AI e mover tudo com menos ruído.',
+      'Summus agora segue uma direção visual industrial e limpa. Entra em Workflow para abrir notas, organizar o calendario e mover tudo com menos ruido.',
     workflowCountLabel: 'workflows',
     workflows: 'Workflows',
     calendarEvents: 'Eventos do calendário',
@@ -53,7 +53,7 @@ const UI_TEXT = {
     heroWelcome: 'welcome',
     heroBack: 'back',
     homeIntro:
-      'Summus now follows a cleaner industrial direction. Jump into Workflow to open notes, use AI, and move faster with less noise.',
+      'Summus now follows a cleaner industrial direction. Jump into Workflow to open notes, organize the calendar, and move faster with less noise.',
     workflowCountLabel: 'workflows',
     workflows: 'Workflows',
     calendarEvents: 'Calendar events',
@@ -93,7 +93,7 @@ const UI_TEXT = {
     heroWelcome: 'bienvenido',
     heroBack: 'de vuelta',
     homeIntro:
-      'Summus ahora sigue una dirección visual industrial y limpia. Entra en Workflow para abrir notas, usar AI y moverte con menos ruido.',
+      'Summus ahora sigue una dirección visual industrial y limpia. Entra en Workflow para abrir notas, organizar el calendario y moverte con menos ruido.',
     workflowCountLabel: 'workflows',
     workflows: 'Workflows',
     calendarEvents: 'Eventos del calendario',
@@ -588,7 +588,9 @@ function App() {
 
 
 
-  const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:5000' : '/api');
+  const API_URL = import.meta.env.DEV
+    ? import.meta.env.VITE_API_URL || 'http://localhost:5000'
+    : '/api';
 
 
 
@@ -1419,22 +1421,6 @@ function App() {
 
 
   const quickActions = [
-
-
-    {
-      key: 'ai',
-      label: 'AI',
-      description: t('aiDescription'),
-      icon: 'AI',
-      onClick: () => {
-        if (aiMessages.length === 0) {
-          setAiMessages([
-            { role: 'assistant', content: t('aiHello') },
-          ]);
-        }
-        setView('ai');
-      },
-    },
     {
       key: 'search',
       label: t('sidebarSearch'),
