@@ -16,6 +16,7 @@ app.use(express.json());
 
 const globalForMongoose = global;
 let connectionPromise = globalForMongoose.__summusMongooseConnectionPromise || null;
+const DEFAULT_JWT_SECRET = 'summus-temporary-jwt-secret-change-me';
 
 const readMongoUri = () => {
   const explicitCandidates = [
@@ -32,6 +33,14 @@ const readMongoUri = () => {
     (value) => typeof value === 'string' && value.trim()
   );
 };
+
+const readJwtSecret = () =>
+  [
+    process.env.JWT_SECRET,
+    process.env.summus_JWT_SECRET,
+    process.env.AUTH_SECRET,
+    DEFAULT_JWT_SECRET,
+  ].find((value) => typeof value === 'string' && value.trim());
 
 const connectToDatabase = async () => {
   if (mongoose.connection.readyState === 1) {
@@ -76,7 +85,7 @@ const verifyToken = (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, readJwtSecret());
     req.userId = decoded.userId;
     return next();
   } catch (error) {
@@ -124,7 +133,7 @@ router.post('/login', ensureDatabase, async (req, res) => {
     return res.status(401).json({ message: 'Invalid credentials' });
   }
 
-  const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
+  const token = jwt.sign({ userId: user._id }, readJwtSecret());
   return res.json({ token });
 });
 
