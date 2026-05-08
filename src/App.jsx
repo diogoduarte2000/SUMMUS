@@ -2634,7 +2634,13 @@ function App() {
                       <div className="home-kicker">{t('primarySurface')}</div>
                       <h2>
                         {heroLines.map((line, index) => (
-                          <span key={`${line}-${index}`}>{line}</span>
+                          <span
+                            key={`${line}-${index}`}
+                            className="home-hero-line"
+                            style={{ '--line-index': index }}
+                          >
+                            {line}
+                          </span>
                         ))}
                       </h2>
                       <p>{t('homeIntro')}</p>
@@ -2704,6 +2710,7 @@ function App() {
                         <button
                           key={action.key}
                           className={`home-action-card home-action-${action.key}`}
+                          style={{ '--action-index': action.key === 'ai' ? 0 : action.key === 'search' ? 1 : action.key === 'calendar' ? 2 : 3 }}
                           onClick={action.onClick}
                         >
                           <span className="home-action-icon">{action.icon}</span>
@@ -2728,10 +2735,11 @@ function App() {
                           {t('recentEmpty')}
                         </div>
                       ) : (
-                        homeRecentList.map((item) => (
+                        homeRecentList.map((item, index) => (
                           <button
                             key={item.id}
                             className="home-recent-item"
+                            style={{ '--recent-index': index }}
                             onClick={() => openNoteFromSummary(item)}
                           >
                             <div className="home-recent-meta">
