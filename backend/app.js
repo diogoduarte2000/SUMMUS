@@ -17,17 +17,34 @@ app.use(express.json());
 const globalForMongoose = global;
 let connectionPromise = globalForMongoose.__summusMongooseConnectionPromise || null;
 
+const readMongoUri = () => {
+  const explicitCandidates = [
+    process.env.MONGO_URI,
+    process.env.MONGODB_URI,
+    process.env.summus_MONGODB_URI,
+  ];
+
+  const dynamicCandidates = Object.entries(process.env)
+    .filter(([key, value]) => key.endsWith('_MONGODB_URI') && typeof value === 'string' && value.trim())
+    .map(([, value]) => value);
+
+  return [...explicitCandidates, ...dynamicCandidates].find(
+    (value) => typeof value === 'string' && value.trim()
+  );
+};
+
 const connectToDatabase = async () => {
   if (mongoose.connection.readyState === 1) {
     return mongoose.connection;
   }
 
-  if (!process.env.MONGO_URI) {
-    throw new Error('MONGO_URI not configured');
+  const mongoUri = readMongoUri();
+  if (!mongoUri) {
+    throw new Error('MongoDB URI not configured. Expected MONGO_URI, MONGODB_URI, or *_MONGODB_URI');
   }
 
   if (!connectionPromise) {
-    connectionPromise = mongoose.connect(process.env.MONGO_URI);
+    connectionPromise = mongoose.connect(mongoUri);
     globalForMongoose.__summusMongooseConnectionPromise = connectionPromise;
   }
 
