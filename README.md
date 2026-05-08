@@ -1,22 +1,26 @@
 # SUMMUS
 
-A simplified Notion-like note-taking app with Claude AI theme.
+A simplified note-taking app with AI chat, calendar, and authentication.
 
 ## Features
 
 - User authentication
-- Basic note editor
+- Notes and workflow board
+- AI chat backed by OpenAI
+- Calendar events stored locally
 - Data stored in MongoDB Atlas
 
-## Setup
+## Local setup
 
 1. Install dependencies for frontend and backend:
-   - Frontend: `npm install` in root
+   - Frontend and Vercel function deps: `npm install` in root
    - Backend: `cd backend && npm install`
 
-2. Set up MongoDB Atlas:
-   - Create a cluster
-   - Update `backend/.env` with your MONGO_URI and JWT_SECRET
+2. Configure the backend environment:
+   - Copy `backend/.env.example` to `backend/.env`
+   - Set `MONGO_URI` and `JWT_SECRET`
+   - Set `OPENAI_API_KEY`
+   - Optionally change `OPENAI_MODEL` if you want another OpenAI text model
 
 3. Run the backend: `cd backend && npm run dev`
 
@@ -24,8 +28,21 @@ A simplified Notion-like note-taking app with Claude AI theme.
 
 5. Open http://localhost:5173
 
+## Vercel deploy
+
+- Keep frontend and backend in the same repository. A second backend-only repo is not necessary for this setup.
+- The frontend uses `VITE_API_URL` when provided. In production it falls back to `/api`, which lets Vercel serve the Express backend from the same project.
+- Add these environment variables in Vercel:
+  - `MONGO_URI`
+  - `JWT_SECRET`
+  - `OPENAI_API_KEY`
+  - `OPENAI_MODEL` (optional)
+- Import the GitHub repository into Vercel and deploy from the repo root.
+- SPA navigation is handled through `vercel.json`, and the backend is exposed through the root `api/` functions.
+
 ## Usage
 
 - Register or login
-- Start writing notes in the editor
-- Save to persist
+- Create and edit workflows
+- Open the AI chat to generate or refine text
+- Use the calendar to store events by day

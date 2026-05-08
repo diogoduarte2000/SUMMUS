@@ -1,15 +1,71 @@
-body {
-  margin: 0;
-  font-family: 'Times New Roman', serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(135deg, #454545 0%, #2a2a2a 100%);
-  color: white;
-  min-height: 100vh;
-}
+@import url('https://fonts.googleapis.com/css2?family=DotGothic16&family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;700&display=swap');
 
 * {
   box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+:root {
+  --font-dot: 'DotGothic16', 'IBM Plex Mono', monospace;
+  --font-heading: 'Space Grotesk', 'Segoe UI', sans-serif;
+  --font-body: 'Space Grotesk', 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Consolas', 'Lucida Console', monospace;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 26px;
+  --radius-xl: 34px;
+  --transition-fast: 150ms ease;
+  --transition-base: 220ms ease;
+}
+
+body {
+  position: relative;
+  margin: 0;
+  min-height: 100vh;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background:
+    radial-gradient(circle at 84% 10%, rgba(255, 92, 54, 0.14), transparent 20%),
+    radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.07), transparent 18%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 24%),
+    var(--bg);
+  transition: background var(--transition-base), color var(--transition-base);
+}
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::before {
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0.8px, transparent 0.8px);
+  background-size: 24px 24px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.56), transparent 82%);
+  opacity: 0.22;
+}
+
+body::after {
+  background:
+    linear-gradient(90deg, transparent 0, rgba(255, 255, 255, 0.04) 52%, transparent 100%),
+    linear-gradient(180deg, transparent 0, rgba(255, 255, 255, 0.03) 100%);
+  mix-blend-mode: screen;
+  opacity: 0.18;
+}
+
+#root {
+  position: relative;
+  z-index: 1;
 }
 
 a {
@@ -17,67 +73,40 @@ a {
   text-decoration: none;
 }
 
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+button,
+input,
+textarea,
+select {
+  font: inherit;
 }
 
-.login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-.login-form {
-  background: rgba(0, 0, 0, 0.5);
-  padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.login-form input {
-  display: block;
-  width: 100%;
-  margin-bottom: 1rem;
-  padding: 0.5rem;
-  border: none;
-  border-radius: 5px;
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-}
-
-.login-form button {
-  background: #333;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
+button {
+  appearance: none;
   cursor: pointer;
 }
 
-.editor {
-  padding: 2rem;
+code {
+  font-family: var(--font-mono);
 }
 
-.editor textarea {
-  width: 100%;
-  height: 400px;
-  background: rgba(0, 0, 0, 0.5);
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 1rem;
-  font-size: 1rem;
-  font-family: 'Times New Roman', serif;
-}
-body.theme-light {
-  background: linear-gradient(135deg, #e5e5e5 0%, #cfd3d8 100%);
-  color: #1a1a1a;
+::selection {
+  background: rgba(255, 92, 54, 0.24);
+  color: inherit;
 }
 
-body.theme-dark {
-  background: linear-gradient(135deg, #454545 0%, #2a2a2a 100%);
-  color: white;
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--line-strong);
 }
