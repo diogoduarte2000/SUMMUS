@@ -204,8 +204,7 @@ function App() {
   });
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-
+  const [userType, setUserType] = useState('guest'); // 'guest' ou 'authenticated'
 
   const [isRegistering, setIsRegistering] = useState(false);
 
@@ -965,6 +964,7 @@ function App() {
 
 
       setIsLoggedIn(true);
+      setUserType('authenticated');
 
 
 
@@ -1025,6 +1025,7 @@ function App() {
 
 
       setIsLoggedIn(true);
+      setUserType('authenticated');
 
 
 
@@ -1476,6 +1477,10 @@ function App() {
   const getEventsForDate = (dateKey, source = calendarEvents) => normalizeDayEvents(source?.[dateKey]);
 
   const saveCalendarEvent = () => {
+    if (userType === 'guest') {
+      setError('You must login to save events. Use "Continue with email" to create an account.');
+      return;
+    }
     if (!selectedDay || !eventForm.title.trim()) return;
     const key = formatDateKey(selectedDay);
     setCalendarEvents((prev) => {
@@ -1551,6 +1556,11 @@ function App() {
   const handleDraftCreate = () => {
 
 
+
+    if (userType === 'guest') {
+      setError('You must login to save notes. Use "Continue with email" to create an account.');
+      return;
+    }
 
     const content = composerText.trim();
 
@@ -1917,6 +1927,14 @@ function App() {
 
 
 
+  const handleContinueAsGuest = () => {
+    setIsLoggedIn(true);
+    setUserType('guest');
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    setView('home');
+  };
+
   const handleLogout = () => {
 
 
@@ -1934,6 +1952,7 @@ function App() {
 
 
     setIsLoggedIn(false);
+    setUserType('guest');
 
 
 
@@ -2123,6 +2142,15 @@ function App() {
 
 
             </form>
+            {!isRegistering && (
+              <button 
+                className="button" 
+                style={{ marginTop: '8px', opacity: 0.7 }}
+                onClick={handleContinueAsGuest}
+              >
+                Continue as Guest
+              </button>
+            )}
           </div>
 
 
@@ -2462,7 +2490,7 @@ function App() {
 
 
 
-            {profileName || username || t('defaultUser')}
+            {profileName || username || t('defaultUser')} {userType === 'guest' && '(Guest)'}
 
 
 
@@ -3527,9 +3555,11 @@ function App() {
 
 
                       </div>
-
-
-
+                      {userType === 'guest' && (
+                        <div style={{ padding: '8px 16px', backgroundColor: 'rgba(255, 107, 107, 0.1)', borderRadius: '4px', margin: '8px', fontSize: '12px', color: '#ff6b6b' }}>
+                          🔒 Guest Mode: You can view content, but need to login to save changes.
+                        </div>
+                      )}
                       <textarea
 
 
@@ -3574,7 +3604,7 @@ function App() {
 
 
 
-                        <button className="button" onClick={handleDraftCreate} disabled={!composerText.trim()}>
+                        <button className="button" onClick={handleDraftCreate} disabled={!composerText.trim() || userType === 'guest'} title={userType === 'guest' ? 'Login to save notes' : ''}>
 
 
 
@@ -3675,6 +3705,11 @@ function App() {
 
                 <div className="day-modal-section">
                   <div className="section-title">{editingEventId ? 'Editar evento' : 'Criar evento'}</div>
+                  {userType === 'guest' && (
+                    <div style={{ padding: '8px 12px', backgroundColor: 'rgba(255, 107, 107, 0.1)', borderRadius: '4px', marginBottom: '12px', fontSize: '12px', color: '#ff6b6b' }}>
+                      🔒 Guest Mode: Login to create or edit events.
+                    </div>
+                  )}
                   <label className="settings-field">
                     <span>Título *</span>
                     <input
@@ -3745,7 +3780,7 @@ function App() {
                       <button className="ghost-button" onClick={closeDayModal}>
                         Fechar
                       </button>
-                      <button className="button" onClick={saveCalendarEvent} disabled={!eventForm.title.trim()}>
+                      <button className="button" onClick={saveCalendarEvent} disabled={!eventForm.title.trim() || userType === 'guest'} title={userType === 'guest' ? 'Login to save events' : ''}>
                         {editingEventId ? 'Atualizar' : 'Guardar'}
                       </button>
                     </div>
